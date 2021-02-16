@@ -7,10 +7,12 @@ connectDB();
 
 const app: Application = express();
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
+app.use(express.json());
+
+app.get('/', (req: Request, res: Response) => {
   res.send('API is running...');
 });
 
-app.use(userRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(5000, () => console.log('Server running'));
