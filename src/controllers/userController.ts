@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+
 import User from '../models/userModel';
 
 export const registerUser = asyncHandler(
@@ -18,13 +19,7 @@ export const registerUser = asyncHandler(
     });
 
     if (user) {
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        isAdmin: user.isAdmin,
-      });
+      res.status(200).json(user);
     } else {
       res.status(400);
       throw new Error('Invalid user data');
