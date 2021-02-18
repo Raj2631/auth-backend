@@ -1,5 +1,10 @@
 import express from 'express';
-import { loginUser, registerUser } from '../controllers/userControllers';
+import {
+  loginUser,
+  registerUser,
+  getUserProfile,
+} from '../controllers/userControllers';
+import { authenticateToken } from '../middlewares/authMiddleware';
 import {
   userValidationRules,
   validate,
@@ -9,4 +14,5 @@ const router = express.Router();
 
 router.post('/', userValidationRules(), validate, registerUser);
 router.post('/login', loginUser);
+router.get('/profile', authenticateToken, getUserProfile);
 export default router;

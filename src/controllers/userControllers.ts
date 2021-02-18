@@ -56,3 +56,11 @@ export const loginUser = asyncHandler(async (req, res) => {
     throw new Error('Invalid email or password');
   }
 });
+
+// @desc    Get user profile
+// @route   GET /api/users/login
+// @access  Private
+
+export const getUserProfile = asyncHandler(async (req: any, res) => {
+  res.send('Success');
+});
