@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application } from 'express';
 import 'dotenv/config';
 import userRoutes from './routes/userRoutes';
 import connectDB from './config/db';
@@ -9,7 +9,7 @@ const app: Application = express();
 
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   res.send('API is running...');
 });
 

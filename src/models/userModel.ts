@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import IUser from '../interfaces/user';
 import bcrypt from 'bcryptjs';
 
-const userSchema: Schema = new Schema(
+const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
@@ -28,7 +28,13 @@ const userSchema: Schema = new Schema(
   }
 );
 
-userSchema.pre<IUser>('save', async function (next) {
+const matchPassword = (userSchema.methods.matchPassword = async function (
+  enteredPassword: string
+) {
+  return await bcrypt.compare(enteredPassword, this.password);
+});
+
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   }
