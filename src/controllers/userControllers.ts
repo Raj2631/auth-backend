@@ -14,7 +14,8 @@ export const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.exists({ email });
 
   if (userExists) {
-    return res.status(400).json({ message: 'User exists already.' });
+    res.status(400);
+    throw new Error('User already exists');
   }
 
   const user = await User.create({
@@ -24,7 +25,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    return res.status(201).json({
+    res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -32,7 +33,8 @@ export const registerUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    return res.status(400).json({ message: 'Something went wrong' });
+    res.status(400);
+    throw new Error('Something went wrong');
   }
 });
 
@@ -62,5 +64,16 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @access  Private
 
 export const getUserProfile = asyncHandler(async (req: any, res) => {
-  res.send('Success');
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
 });
