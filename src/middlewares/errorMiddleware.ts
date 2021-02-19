@@ -13,9 +13,6 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  if (statusCode === 200 && err.message.includes('Cast to ObjectId failed')) {
-    statusCode = 404;
-  }
   res.status(statusCode);
   res.json({
     message: err.message,
